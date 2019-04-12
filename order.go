@@ -3,6 +3,8 @@ package opentrans
 import (
 	"encoding/xml"
 	"time"
+
+	"gitlab.com/mclgmbh/gomod/bmecat"
 )
 
 type OrderType string
@@ -28,7 +30,7 @@ type Order struct {
 func NewOrder(typ OrderType) *Order {
 	return &Order{
 		Namespace:       "http://www.opentrans.org/XMLSchema/2.1",
-		NamespaceBMEcat: "http://www.bmecat.org/bmecat/2005",
+		NamespaceBMEcat: bmecat.Namespace,
 		Version:         "2.1",
 		Type:            typ,
 	}
@@ -64,7 +66,7 @@ type OrderInfo struct {
 	OrderID                string                 `xml:"ORDER_ID" validate:"min=1,max=250"`
 	OrderDate              time.Time              `xml:"ORDER_DATE"`
 	DeliveryDate           *time.Time             `xml:"DELIVERY_DATE"`
-	Language               []Language             `xml:"bmecat:LANGUAGE"`
+	Language               []bmecat.Language      `xml:"bmecat:LANGUAGE"`
 	MIMERoot               string                 `xml:"bmecat:MIME_ROOT,omitempty" validate:"max=250"`
 	Parties                Parties                `xml:"PARTIES"`
 	CustomerOrderReference CustomerOrderReference `xml:"CUSTOMER_ORDER_REFERENCE"`
