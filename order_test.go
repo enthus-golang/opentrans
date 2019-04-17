@@ -10,13 +10,13 @@ import (
 )
 
 func TestNewOrder(t *testing.T) {
-	d := Datetime{Time: time.Date(2018, time.October, 1, 18, 54, 55, 0, time.UTC)}
+	d := bmecat.Datetime{Time: time.Date(2018, time.October, 1, 18, 54, 55, 0, time.UTC)}
 
 	t.Run("Test1", func(t *testing.T) {
 		o1 := NewOrder(OrderTypeStandard)
 		o1.OrderHeader.ControlInfo = &ControlInfo{
 			GeneratorInfo:  "test",
-			GenerationDate: d.Format(datetimeFormat),
+			GenerationDate: d,
 		}
 		o1.OrderHeader.OrderInfo = &OrderInfo{
 			OrderID:   "ORDER_123456",

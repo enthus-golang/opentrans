@@ -1,8 +1,11 @@
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
+github.com/stretchr/objx v0.2.0/go.mod h1:qt09Ya8vawLte6SNmTgCsAVtYtaKzEcn8ATUoHMkEqE=
 github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190412153841-49f9fc4da0ef h1:jFouIGbeZPwq+K9iD2tVtgSAdPcr5hPyPASp2iFHGEk=
@@ -19,3 +22,5 @@ gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190417131445-0ab894064bc1 h1:qTL4OsUYpg
 gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190417131445-0ab894064bc1/go.mod h1:peAKfJdZkk5s9tDxHBHDVFlo6Sz0O3KmpifAKJSFTek=
 gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190417133029-941d086f83bf h1:Gm8MJc1DsDCePWCFLYwOQy7zyIQNJsY00z4WcD/1qwM=
 gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190417133029-941d086f83bf/go.mod h1:peAKfJdZkk5s9tDxHBHDVFlo6Sz0O3KmpifAKJSFTek=
+gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190417151154-dc77a28d5aef h1:VA92jw682Wfy1PLMkeTJsesjV58i3GSEz/mPLLrJRdw=
+gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190417151154-dc77a28d5aef/go.mod h1:HbX928gH2IMwRlYKDvamDMet5Hv+ZhxhX/B4bESdV3o=

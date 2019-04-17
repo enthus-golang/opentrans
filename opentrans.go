@@ -7,10 +7,10 @@ import (
 )
 
 type ControlInfo struct {
-	XMLName                 xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 CONTROL_INFO"`
-	StopAutomaticProcessing string   `xml:"http://www.opentrans.org/XMLSchema/2.1 STOP_AUTOMATIC_PROCESSING,omitempty" validate:"max=250"`
-	GeneratorInfo           string   `xml:"http://www.opentrans.org/XMLSchema/2.1 GENERATOR_INFO,omitempty" validate:"max=250"`
-	GenerationDate          string   `xml:"http://www.opentrans.org/XMLSchema/2.1 GENERATION_DATE"`
+	XMLName                 xml.Name        `xml:"http://www.opentrans.org/XMLSchema/2.1 CONTROL_INFO"`
+	StopAutomaticProcessing string          `xml:"http://www.opentrans.org/XMLSchema/2.1 STOP_AUTOMATIC_PROCESSING,omitempty" validate:"max=250"`
+	GeneratorInfo           string          `xml:"http://www.opentrans.org/XMLSchema/2.1 GENERATOR_INFO,omitempty" validate:"max=250"`
+	GenerationDate          bmecat.Datetime `xml:"http://www.opentrans.org/XMLSchema/2.1 GENERATION_DATE"`
 }
 
 type Parties struct {

@@ -9,10 +9,10 @@ import (
 type OrderType string
 
 const (
-	OrderTypeStandard    = "standard"
-	OrderTypeExpress     = "express"
-	OrderTypeRelease     = "release"
-	OrderTypeConsignment = "consignment"
+	OrderTypeStandard    OrderType = "standard"
+	OrderTypeExpress               = "express"
+	OrderTypeRelease               = "release"
+	OrderTypeConsignment           = "consignment"
 )
 
 type Order struct {
@@ -92,8 +92,8 @@ type SourcingInfo struct {
 type OrderInfo struct {
 	XMLName                xml.Name                `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_INFO"`
 	OrderID                string                  `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ID" validate:"min=1,max=250"`
-	OrderDate              Datetime                `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
-	DeliveryDate           *Datetime               `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERY_DATE"`
+	OrderDate              bmecat.Datetime         `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
+	DeliveryDate           *bmecat.Datetime        `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERY_DATE"`
 	Language               []bmecat.Language       `xml:"http://www.bmecat.org/bmecat/2005 LANGUAGE"`
 	MIMERoot               string                  `xml:"http://www.bmecat.org/bmecat/2005 MIME_ROOT,omitempty" validate:"max=250"`
 	Parties                Parties                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIES"`
