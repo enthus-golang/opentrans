@@ -247,6 +247,28 @@ func TestNewOrder(t *testing.T) {
 					},
 				},
 			},
+			Currency: "EUR",
+		}
+
+		o1.OrderItemList.OrderItem = []OrderItem{
+			{
+				LineItemID: "123456",
+				ProductID: ProductID{
+					SupplierPID: &bmecat.SupplierPID{
+						Type:  bmecat.PIDSupplierSpecific,
+						Value: "5095055",
+					},
+					InternationalPID: &bmecat.InternationalPID{
+						Value: "5702015867511",
+					},
+				},
+				Quantity:        1.0,
+				OrderUnit:       bmecat.UnitPiece,
+				PriceLineAmount: 3.51,
+				ProductPriceFix: &ProductPriceFix{
+					PriceAmount: 3.51,
+				},
+			},
 		}
 
 		s, err := xml.MarshalIndent(o1, "", "  ")
@@ -336,9 +358,25 @@ func TestNewOrder(t *testing.T) {
         <BUYER_IDREF xmlns="http://www.bmecat.org/bmecat/2005" type="supplier_specific">123456</BUYER_IDREF>
         <SUPPLIER_IDREF xmlns="http://www.bmecat.org/bmecat/2005" type="buyer_specific">102315123</SUPPLIER_IDREF>
       </ORDER_PARTIES_REFERENCE>
+      <CURRENCY xmlns="http://www.bmecat.org/bmecat/2005">EUR</CURRENCY>
+      <PARTIAL_SHIPMENT_ALLOWED xmlns="http://www.opentrans.org/XMLSchema/2.1">false</PARTIAL_SHIPMENT_ALLOWED>
     </ORDER_INFO>
   </ORDER_HEADER>
-  <ORDER_ITEM_LIST xmlns="http://www.opentrans.org/XMLSchema/2.1"></ORDER_ITEM_LIST>
+  <ORDER_ITEM_LIST xmlns="http://www.opentrans.org/XMLSchema/2.1">
+    <ORDER_ITEM xmlns="http://www.opentrans.org/XMLSchema/2.1">
+      <LINE_ITEM_ID xmlns="http://www.opentrans.org/XMLSchema/2.1">123456</LINE_ITEM_ID>
+      <PRODUCT_ID xmlns="http://www.opentrans.org/XMLSchema/2.1">
+        <SUPPLIER_PID xmlns="http://www.bmecat.org/bmecat/2005" type="supplier_specific">5095055</SUPPLIER_PID>
+        <INTERNATIONAL_PID xmlns="http://www.bmecat.org/bmecat/2005">5702015867511</INTERNATIONAL_PID>
+      </PRODUCT_ID>
+      <QUANTITY xmlns="http://www.opentrans.org/XMLSchema/2.1">1</QUANTITY>
+      <ORDER_UNIT xmlns="http://www.bmecat.org/bmecat/2005">C62</ORDER_UNIT>
+      <PRICE_LINE_AMOUNT xmlns="http://www.opentrans.org/XMLSchema/2.1">3.51</PRICE_LINE_AMOUNT>
+      <PRODUCT_PRICE_FIX xmlns="http://www.opentrans.org/XMLSchema/2.1">
+        <PRICE_AMOUNT xmlns="http://www.bmecat.org/bmecat/2005">3.51</PRICE_AMOUNT>
+      </PRODUCT_PRICE_FIX>
+    </ORDER_ITEM>
+  </ORDER_ITEM_LIST>
   <ORDER_SUMMARY xmlns="http://www.opentrans.org/XMLSchema/2.1"></ORDER_SUMMARY>
 </ORDER>`, string(s), "")
 	})

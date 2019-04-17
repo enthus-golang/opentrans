@@ -39,8 +39,48 @@ type OrderHeader struct {
 }
 
 type OrderItemList struct {
-	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM_LIST"`
+	XMLName   xml.Name    `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM_LIST"`
+	OrderItem []OrderItem `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM" validate:"required,gt=0,dive,required"`
 }
+
+type OrderItem struct {
+	XMLName         xml.Name         `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM"`
+	LineItemID      string           `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID" validate:"required,max=50"`
+	ProductID       ProductID        `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_ID" validate:"required"`
+	Quantity        float64          `xml:"http://www.opentrans.org/XMLSchema/2.1 QUANTITY" validate:"required"`
+	OrderUnit       bmecat.OrderUnit `xml:"http://www.bmecat.org/bmecat/2005 ORDER_UNIT" validate:"required,max=3"`
+	PriceLineAmount float64          `xml:"http://www.opentrans.org/XMLSchema/2.1 PRICE_LINE_AMOUNT,omitempty"`
+	ProductPriceFix *ProductPriceFix `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_PRICE_FIX"`
+}
+
+type ProductID struct {
+	XMLName          xml.Name                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_ID"`
+	SupplierPID      *bmecat.SupplierPID      `xml:"http://www.bmecat.org/bmecat/2005 SUPPLIER_PID"`
+	SupplierIDRef    *bmecat.SupplierIDRef    `xml:"http://www.bmecat.org/bmecat/2005 SUPPLIER_IDREF"`
+	ConfigCodeFix    string                   `xml:"http://www.opentrans.org/XMLSchema/2.1 CONFIG_CODE_FIX,omitempty" validate:"max=6000"`
+	LOTNumber        []string                 `xml:"http://www.opentrans.org/XMLSchema/2.1 LOT_NUMBER" validate:"dive,max=80"`
+	SerialNumber     []string                 `xml:"http://www.opentrans.org/XMLSchema/2.1 SERIAL_NUMBER" validate:"dive,max=80"`
+	InternationalPID *bmecat.InternationalPID `xml:"http://www.bmecat.org/bmecat/2005 INTERNATIONAL_PID"`
+	BuyerPID         *bmecat.BuyerPID         `xml:"http://www.bmecat.org/bmecat/2005 BUYER_PID"`
+	DescriptionShort *DescriptionShort        `xml:"http://www.opentrans.org/XMLSchema/2.1 DESCRIPTION_SHORT"`
+	DescriptionLong  *DescriptionLong         `xml:"http://www.opentrans.org/XMLSchema/2.1 DESCRIPTION_LONG"`
+}
+
+type DescriptionShort struct {
+	multiLocaleString00150
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 DESCRIPTION_SHORT"`
+}
+
+type DescriptionLong struct {
+	multiLocaleString64000
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 DESCRIPTION_LONG"`
+}
+
+type ProductPriceFix struct {
+	XMLName     xml.Name           `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_PRICE_FIX"`
+	PriceAmount bmecat.PriceAmount `xml:"http://www.bmecat.org/bmecat/2005 PRICE_AMOUNT" validate:"required"`
+}
+
 type OrderSummary struct {
 	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_SUMMARY"`
 }
@@ -59,6 +99,8 @@ type OrderInfo struct {
 	Parties                Parties                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIES"`
 	CustomerOrderReference *CustomerOrderReference `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE,omitempty"`
 	OrderPartiesReference  OrderPartiesReference   `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_PARTIES_REFERENCE"`
+	Currency               bmecat.EMail            `xml:"http://www.bmecat.org/bmecat/2005 CURRENCY" validate:"required"`
+	PartialShipmentAllowed bool                    `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIAL_SHIPMENT_ALLOWED"`
 }
 
 type CustomerOrderReference struct {
