@@ -87,7 +87,7 @@ type Address struct {
 
 type ContactDetails struct {
 	XMLName            xml.Name                    `xml:"http://www.opentrans.org/XMLSchema/2.1 CONTACT_DETAILS"`
-	ContactID          string                      `xml:"bmecat:CONTACT_ID,omitempty" validate:"max=60"`
+	ContactID          string                      `xml:"http://www.bmecat.org/bmecat/2005 CONTACT_ID,omitempty" validate:"max=60"`
 	ContactName        []bmecat.ContactName        `xml:"http://www.bmecat.org/bmecat/2005 CONTACT_NAME"`
 	FirstName          []bmecat.FirstName          `xml:"http://www.bmecat.org/bmecat/2005 FIRST_NAME"`
 	Title              []bmecat.Title              `xml:"http://www.bmecat.org/bmecat/2005 TITLE"`
