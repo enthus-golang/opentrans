@@ -6,21 +6,22 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/mclgmbh/gomod/bmecat"
 )
 
 func TestNewOrder(t *testing.T) {
-	d := time.Date(2018, time.October, 1, 18, 54, 55, 0, time.UTC)
+	d := Datetime{Time: time.Date(2018, time.October, 1, 18, 54, 55, 0, time.UTC)}
 
 	t.Run("Test1", func(t *testing.T) {
 		o1 := NewOrder(OrderTypeStandard)
-		o1.OrderHeader.ControlInfo = &OrderControlInfo{
+		o1.OrderHeader.ControlInfo = &ControlInfo{
 			GeneratorInfo:  "test",
-			GenerationDate: &d,
+			GenerationDate: d.Format(datetimeFormat),
 		}
 		o1.OrderHeader.OrderInfo = &OrderInfo{
 			OrderID:   "ORDER_123456",
 			OrderDate: d,
-			Language: []Language{
+			Language: []bmecat.Language{
 				{
 					Default: true,
 					Value:   "deu",
@@ -29,34 +30,38 @@ func TestNewOrder(t *testing.T) {
 			Parties: Parties{
 				Party: []Party{
 					{
-						PartyID: PartyID{
-							Type:  PartyTypeBuyerSpecific,
-							Value: "1234569",
+						PartyID: []bmecat.PartyID{
+							{
+								Type:  bmecat.PartyTypeBuyerSpecific,
+								Value: "1234569",
+							},
 						},
-						PartyRole: PartyRoleSupplier,
+						PartyRole: []PartyRole{
+							PartyRoleSupplier,
+						},
 						Address: []Address{
 							{
-								Name: []Name{
+								Name: []bmecat.Name{
 									{
 										Value: "XYZ Name",
 									},
 								},
-								Street: []Street{
+								Street: []bmecat.Street{
 									{
 										Value: "Some sort of street 26",
 									},
 								},
-								Zip: []Zip{
+								Zip: []bmecat.Zip{
 									{
 										Value: "ZIP 123",
 									},
 								},
-								City: []City{
+								City: []bmecat.City{
 									{
 										Value: "Awesomo",
 									},
 								},
-								Country: []Country{
+								Country: []bmecat.Country{
 									{
 										Value: "Deutschland",
 									},
@@ -66,73 +71,77 @@ func TestNewOrder(t *testing.T) {
 						},
 					},
 					{
-						PartyID: PartyID{
-							Type:  PartyTypeSupplierSpecific,
-							Value: "25874852",
+						PartyID: []bmecat.PartyID{
+							{
+								Type:  bmecat.PartyTypeSupplierSpecific,
+								Value: "25874852",
+							},
 						},
-						PartyRole: PartyRoleBuyer,
+						PartyRole: []PartyRole{
+							PartyRoleBuyer,
+						},
 						Address: []Address{
 							{
-								Name: []Name{
+								Name: []bmecat.Name{
 									{
 										Value: "ASD",
 									},
 								},
 								ContactDetails: []ContactDetails{
 									{
-										ContactName: []ContactName{
+										ContactName: []bmecat.ContactName{
 											{
 												Value: "Bin",
 											},
 										},
-										FirstName: []FirstName{
+										FirstName: []bmecat.FirstName{
 											{
 												Value: "Foo",
 											},
 										},
-										Phone: []Phone{
+										Phone: []bmecat.Phone{
 											{
-												Type:  PhoneOffice,
+												Type:  bmecat.PhoneOffice,
 												Value: "+49 487 1474447448",
 											},
 										},
-										EMails: &EMails{
-											EMail: []string{
+										EMails: &bmecat.EMails{
+											EMail: []bmecat.EMail{
 												"foo@bar.baz",
 											},
 										},
 									},
 								},
-								Street: []Street{
+								Street: []bmecat.Street{
 									{
 										Value: "Another street 12",
 									},
 								},
-								Zip: []Zip{
+								Zip: []bmecat.Zip{
 									{
 										Value: "45123",
 									},
 								},
-								City: []City{
+								City: []bmecat.City{
 									{
 										Value: "Gotham",
 									},
 								},
-								Country: []Country{
+								Country: []bmecat.Country{
 									{
 										Value: "Deutschland",
 									},
 								},
 								CountryCoded: "DE",
-								Phone: []Phone{
+								Phone: []bmecat.Phone{
 									{
-										Type:  PhoneOffice,
+										Type:  bmecat.PhoneOffice,
 										Value: "+49 148/147854788",
 									},
 								},
-								Fax: []Fax{
+								Fax: []bmecat.Fax{
 									{
-										Type:  FaxOffice,
+										Type:  bmecat.FaxOffice,
 										Value: "+49 148/147854789",
 									},
 								},
@@ -141,79 +150,100 @@ func TestNewOrder(t *testing.T) {
 						},
 					},
 					{
-						PartyID: PartyID{
-							Type:  PartyTypeSupplierSpecific,
-							Value: "25874852",
+						PartyID: []bmecat.PartyID{
+							{
+								Type:  bmecat.PartyTypeSupplierSpecific,
+								Value: "25874852",
+							},
 						},
-						PartyRole: PartyRoleDelivery,
+						PartyRole: []PartyRole{
+							PartyRoleDelivery,
+						},
 						Address: []Address{
 							{
-								Name: []Name{
+								Name: []bmecat.Name{
 									{
 										Value: "ASD",
 									},
 								},
 								ContactDetails: []ContactDetails{
 									{
-										ContactName: []ContactName{
+										ContactName: []bmecat.ContactName{
 											{
 												Value: "Bin",
 											},
 										},
-										FirstName: []FirstName{
+										FirstName: []bmecat.FirstName{
 											{
 												Value: "Foo",
 											},
 										},
-										Phone: []Phone{
+										Phone: []bmecat.Phone{
 											{
-												Type:  PhoneOffice,
+												Type:  bmecat.PhoneOffice,
 												Value: "+49 487 1474447448",
 											},
 										},
-										EMails: &EMails{
-											EMail: []string{
+										EMails: &bmecat.EMails{
+											EMail: []bmecat.EMail{
 												"foo@bar.baz",
 											},
 										},
 									},
 								},
-								Street: []Street{
+								Street: []bmecat.Street{
 									{
 										Value: "Another street 12",
 									},
 								},
-								Zip: []Zip{
+								Zip: []bmecat.Zip{
 									{
 										Value: "45123",
 									},
 								},
-								City: []City{
+								City: []bmecat.City{
 									{
 										Value: "Gotham",
 									},
 								},
-								Country: []Country{
+								Country: []bmecat.Country{
 									{
 										Value: "Deutschland",
 									},
 								},
 								CountryCoded: "DE",
-								Phone: []Phone{
+								Phone: []bmecat.Phone{
 									{
-										Type:  PhoneOffice,
+										Type:  bmecat.PhoneOffice,
 										Value: "+49 148/147854788",
 									},
 								},
-								Fax: []Fax{
+								Fax: []bmecat.Fax{
 									{
-										Type:  FaxOffice,
+										Type:  bmecat.FaxOffice,
 										Value: "+49 148/147854789",
 									},
 								},
 								URL: "www.example.tld",
+								EMail: []bmecat.EMail{
+									"foo2@bar.baz",
+								},
 							},
 						},
+					},
+				},
+			},
+			OrderPartiesReference: OrderPartiesReference{
+				BuyerIDRef: &bmecat.BuyerIDRef{
+					PartyID: bmecat.PartyID{
+						Type:  bmecat.PartyTypeSupplierSpecific,
+						Value: "123456",
+					},
+				},
+				SupplierIDRef: &bmecat.SupplierIDRef{
+					PartyID: bmecat.PartyID{
+						Type:  bmecat.PartyTypeBuyerSpecific,
+						Value: "102315123",
 					},
 				},
 			},
@@ -295,12 +325,17 @@ func TestNewOrder(t *testing.T) {
             <bmecat:COUNTRY_CODED>DE</bmecat:COUNTRY_CODED>
             <bmecat:PHONE type="office">+49 148/147854788</bmecat:PHONE>
             <bmecat:FAX type="office">+49 148/147854789</bmecat:FAX>
+            <bmecat:EMAIL>foo2@bar.baz</bmecat:EMAIL>
             <bmecat:URL>www.example.tld</bmecat:URL>
           </ADDRESS>
           <ACCOUNT></ACCOUNT>
           <MIME_INFO></MIME_INFO>
         </PARTY>
       </PARTIES>
+      <ORDER_PARTIES_REFERENCE>
+        <bmecat:BUYER_IDREF type="supplier_specific">123456</bmecat:BUYER_IDREF>
+        <bmecat:SUPPLIER_IDREF type="buyer_specific">102315123</bmecat:SUPPLIER_IDREF>
+      </ORDER_PARTIES_REFERENCE>
     </ORDER_INFO>
   </ORDER_HEADER>
   <ORDER_ITEM_LIST></ORDER_ITEM_LIST>

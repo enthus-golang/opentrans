@@ -2,7 +2,6 @@ package opentrans
 
 import (
 	"encoding/xml"
-	"time"
 
 	"gitlab.com/mclgmbh/gomod/bmecat"
 )
@@ -37,10 +36,10 @@ func NewOrder(typ OrderType) *Order {
 }
 
 type OrderHeader struct {
-	XMLName      xml.Name          `xml:"ORDER_HEADER"`
-	ControlInfo  *OrderControlInfo `xml:",omitempty"`
-	SourcingInfo *SourcingInfo     `xml:",omitempty"`
-	OrderInfo    *OrderInfo        `validate:"required"`
+	XMLName      xml.Name      `xml:"ORDER_HEADER"`
+	ControlInfo  *ControlInfo  `xml:",omitempty"`
+	SourcingInfo *SourcingInfo `xml:",omitempty"`
+	OrderInfo    *OrderInfo    `validate:"required"`
 }
 
 type OrderItemList struct {
@@ -50,28 +49,28 @@ type OrderSummary struct {
 	XMLName xml.Name `xml:"ORDER_SUMMARY"`
 }
 
-type OrderControlInfo struct {
-	XMLName                 xml.Name   `xml:"CONTROL_INFO"`
-	StopAutomaticProcessing string     `xml:"STOP_AUTOMATIC_PROCESSING,omitempty" validate:"max=250"`
-	GeneratorInfo           string     `xml:"GENERATOR_INFO,omitempty" validate:"max=250"`
-	GenerationDate          *time.Time `xml:"GENERATION_DATE"`
-}
-
 type SourcingInfo struct {
 	XMLName xml.Name `xml:"SOURCING_INFO"`
 }
 
 type OrderInfo struct {
-	XMLName                xml.Name               `xml:"ORDER_INFO"`
-	OrderID                string                 `xml:"ORDER_ID" validate:"min=1,max=250"`
-	OrderDate              time.Time              `xml:"ORDER_DATE"`
-	DeliveryDate           *time.Time             `xml:"DELIVERY_DATE"`
-	Language               []bmecat.Language      `xml:"bmecat:LANGUAGE"`
-	MIMERoot               string                 `xml:"bmecat:MIME_ROOT,omitempty" validate:"max=250"`
-	Parties                Parties                `xml:"PARTIES"`
-	CustomerOrderReference CustomerOrderReference `xml:"CUSTOMER_ORDER_REFERENCE"`
+	XMLName                xml.Name                `xml:"ORDER_INFO"`
+	OrderID                string                  `xml:"ORDER_ID" validate:"min=1,max=250"`
+	OrderDate              Datetime                `xml:"ORDER_DATE"`
+	DeliveryDate           *Datetime               `xml:"DELIVERY_DATE"`
+	Language               []bmecat.Language       `xml:"http://www.bmecat.org/bmecat/2005 LANGUAGE"`
+	MIMERoot               string                  `xml:"http://www.bmecat.org/bmecat/2005 MIME_ROOT,omitempty" validate:"max=250"`
+	Parties                Parties                 `xml:"PARTIES"`
+	CustomerOrderReference *CustomerOrderReference `xml:"CUSTOMER_ORDER_REFERENCE,omitempty"`
+	OrderPartiesReference  OrderPartiesReference   `xml:"ORDER_PARTIES_REFERENCE"`
 }
 
 type CustomerOrderReference struct {
 	XMLName xml.Name `xml:"CUSTOMER_ORDER_REFERENCE"`
+}
+
+type OrderPartiesReference struct {
+	XMLName       xml.Name              `xml:"ORDER_PARTIES_REFERENCE"`
+	BuyerIDRef    *bmecat.BuyerIDRef    `xml:"http://www.bmecat.org/bmecat/2005 BUYER_IDREF,omitempty"`
+	SupplierIDRef *bmecat.SupplierIDRef `xml:"http://www.bmecat.org/bmecat/2005 SUPPLIER_IDREF,omitempty"`
 }
