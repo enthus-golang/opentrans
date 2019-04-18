@@ -234,13 +234,13 @@ func TestNewOrder(t *testing.T) {
 				},
 			},
 			OrderPartiesReference: OrderPartiesReference{
-				BuyerIDRef: &bmecat.BuyerIDRef{
+				BuyerIDRef: bmecat.BuyerIDRef{
 					PartyID: bmecat.PartyID{
 						Type:  bmecat.PartyTypeSupplierSpecific,
 						Value: "123456",
 					},
 				},
-				SupplierIDRef: &bmecat.SupplierIDRef{
+				SupplierIDRef: bmecat.SupplierIDRef{
 					PartyID: bmecat.PartyID{
 						Type:  bmecat.PartyTypeBuyerSpecific,
 						Value: "102315123",
@@ -248,6 +248,17 @@ func TestNewOrder(t *testing.T) {
 				},
 			},
 			Currency: "EUR",
+			Remarks: []Remarks{
+				{
+					Type:  RemarkGeneral,
+					Value: "RemarkTheFirst",
+				},
+			},
+			HeaderUserDefinedExtension: &HeaderUserDefinedExtension{
+				Elements: map[string]interface{}{
+					"DROPSHIPMENT": true,
+				},
+			},
 		}
 
 		o1.OrderItemList.OrderItem = []OrderItem{
@@ -360,6 +371,10 @@ func TestNewOrder(t *testing.T) {
       </ORDER_PARTIES_REFERENCE>
       <CURRENCY xmlns="http://www.bmecat.org/bmecat/2005">EUR</CURRENCY>
       <PARTIAL_SHIPMENT_ALLOWED xmlns="http://www.opentrans.org/XMLSchema/2.1">false</PARTIAL_SHIPMENT_ALLOWED>
+      <REMARKS xmlns="http://www.opentrans.org/XMLSchema/2.1" type="general">RemarkTheFirst</REMARKS>
+      <HEADER_UDX xmlns="http://www.opentrans.org/XMLSchema/2.1">
+        <UDX.DROPSHIPMENT>true</UDX.DROPSHIPMENT>
+      </HEADER_UDX>
     </ORDER_INFO>
   </ORDER_HEADER>
   <ORDER_ITEM_LIST xmlns="http://www.opentrans.org/XMLSchema/2.1">

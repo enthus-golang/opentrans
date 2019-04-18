@@ -2,6 +2,8 @@ package opentrans
 
 import (
 	"encoding/xml"
+	"fmt"
+	"strings"
 
 	"gitlab.com/mclgmbh/gomod/bmecat"
 )
@@ -90,17 +92,19 @@ type SourcingInfo struct {
 }
 
 type OrderInfo struct {
-	XMLName                xml.Name                `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_INFO"`
-	OrderID                string                  `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ID" validate:"min=1,max=250"`
-	OrderDate              bmecat.Datetime         `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
-	DeliveryDate           *bmecat.Datetime        `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERY_DATE"`
-	Language               []bmecat.Language       `xml:"http://www.bmecat.org/bmecat/2005 LANGUAGE"`
-	MIMERoot               string                  `xml:"http://www.bmecat.org/bmecat/2005 MIME_ROOT,omitempty" validate:"max=250"`
-	Parties                Parties                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIES"`
-	CustomerOrderReference *CustomerOrderReference `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE,omitempty"`
-	OrderPartiesReference  OrderPartiesReference   `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_PARTIES_REFERENCE"`
-	Currency               bmecat.EMail            `xml:"http://www.bmecat.org/bmecat/2005 CURRENCY" validate:"required"`
-	PartialShipmentAllowed bool                    `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIAL_SHIPMENT_ALLOWED"`
+	XMLName                    xml.Name                    `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_INFO"`
+	OrderID                    string                      `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ID" validate:"min=1,max=250"`
+	OrderDate                  bmecat.Datetime             `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
+	DeliveryDate               *bmecat.Datetime            `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERY_DATE"`
+	Language                   []bmecat.Language           `xml:"http://www.bmecat.org/bmecat/2005 LANGUAGE"`
+	MIMERoot                   string                      `xml:"http://www.bmecat.org/bmecat/2005 MIME_ROOT,omitempty" validate:"max=250"`
+	Parties                    Parties                     `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIES"`
+	CustomerOrderReference     *CustomerOrderReference     `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE,omitempty"`
+	OrderPartiesReference      OrderPartiesReference       `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_PARTIES_REFERENCE"`
+	Currency                   bmecat.Currency             `xml:"http://www.bmecat.org/bmecat/2005 CURRENCY" validate:"required"`
+	PartialShipmentAllowed     bool                        `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIAL_SHIPMENT_ALLOWED"`
+	Remarks                    []Remarks                   `xml:"http://www.opentrans.org/XMLSchema/2.1 REMARKS"`
+	HeaderUserDefinedExtension *HeaderUserDefinedExtension `xml:"http://www.opentrans.org/XMLSchema/2.1 HEADER_UDX"`
 }
 
 type CustomerOrderReference struct {
@@ -108,7 +112,90 @@ type CustomerOrderReference struct {
 }
 
 type OrderPartiesReference struct {
-	XMLName       xml.Name              `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_PARTIES_REFERENCE"`
-	BuyerIDRef    *bmecat.BuyerIDRef    `xml:"http://www.bmecat.org/bmecat/2005 BUYER_IDREF,omitempty"`
-	SupplierIDRef *bmecat.SupplierIDRef `xml:"http://www.bmecat.org/bmecat/2005 SUPPLIER_IDREF,omitempty"`
+	XMLName                  xml.Name                  `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_PARTIES_REFERENCE"`
+	BuyerIDRef               bmecat.BuyerIDRef         `xml:"http://www.bmecat.org/bmecat/2005 BUYER_IDREF,omitempty"`
+	SupplierIDRef            bmecat.SupplierIDRef      `xml:"http://www.bmecat.org/bmecat/2005 SUPPLIER_IDREF,omitempty"`
+	InvoiceRecipientIDRef    *InvoiceRecipientIDRef    `xml:"http://www.opentrans.org/XMLSchema/2.1 INVOICE_RECIPIENT_IDREF"`
+	ShipmentPartiesReference *ShipmentPartiesReference `xml:"http://www.opentrans.org/XMLSchema/2.1 SHIPMENT_PARTIES_REFERENCE"`
+}
+
+type InvoiceRecipientIDRef struct {
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 INVOICE_RECIPIENT_IDREF"`
+	Type    string   `xml:"type,attr,omitempty" validate:"min=1,max=250"`
+	Value   string   `xml:",chardata" validate:"min=1,max=250"`
+}
+
+type ShipmentPartiesReference struct {
+	XMLName            xml.Name            `xml:"http://www.opentrans.org/XMLSchema/2.1 SHIPMENT_PARTIES_REFERENCE"`
+	DeliveryIDRef      DeliveryIDRef       `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERY_IDREF"`
+	FinalDeliveryIDRef *FinalDeliveryIDRef `xml:"http://www.opentrans.org/XMLSchema/2.1 FINAL_DELIVERY_IDREF"`
+	DelivererIDRef     *DelivererIDRef     `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERER_IDREF"`
+}
+
+type DeliveryIDRef struct {
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERY_IDREF"`
+	Type    string   `xml:"type,attr,omitempty" validate:"min=1,max=250"`
+	Value   string   `xml:",chardata" validate:"min=1,max=250"`
+}
+
+type FinalDeliveryIDRef struct {
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 FINAL_DELIVERY_IDREF"`
+	Type    string   `xml:"type,attr,omitempty" validate:"min=1,max=250"`
+	Value   string   `xml:",chardata" validate:"min=1,max=250"`
+}
+
+type DelivererIDRef struct {
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 DELIVERER_IDREF"`
+	Type    string   `xml:"type,attr,omitempty" validate:"min=1,max=250"`
+	Value   string   `xml:",chardata" validate:"min=1,max=250"`
+}
+
+type RemarkType string
+
+const (
+	RemarkDeliveryNote           RemarkType = "deliverynote"
+	RemarkDispatchNotification              = "dispatchnotification"
+	RemarkGeneral                           = "general"
+	RemarkInvoice                           = "invoice"
+	RemarkOrder                             = "order"
+	RemarkOrderChange                       = "orderchange"
+	RemarkOrderResponse                     = "orderresponse"
+	RemarkQuotation                         = "quotation"
+	RemarkReceiptacknowledgement            = "receiptacknowledgement"
+	RemarkRemittanceAdvice                  = "remittanceadvice"
+	RemarkInvoiceList                       = "invoicelist"
+	RemarkRFQ                               = "rfq"
+	RemarkTransport                         = "transport"
+)
+
+type Remarks struct {
+	XMLName xml.Name   `xml:"http://www.opentrans.org/XMLSchema/2.1 REMARKS"`
+	Type    RemarkType `xml:"type,attr,omitempty" validate:"min=1,max=250"`
+	Value   string     `xml:",chardata" validate:"min=1,max=64000"`
+}
+
+type HeaderUserDefinedExtension struct {
+	XMLName  xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 HEADER_UDX"`
+	Elements map[string]interface{}
+}
+
+func (h HeaderUserDefinedExtension) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	err := e.EncodeToken(start)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range h.Elements {
+		err = e.EncodeElement(v, xml.StartElement{Name: xml.Name{Local: fmt.Sprintf("UDX.%s", strings.ToUpper(k))}})
+		if err != nil {
+			return err
+		}
+	}
+
+	err = e.EncodeToken(xml.EndElement{Name: start.Name})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

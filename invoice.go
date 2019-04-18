@@ -33,7 +33,7 @@ type InvoiceInfo struct {
 	Parties       Parties               `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTIES"`
 	BuyerIDRef    *bmecat.BuyerIDRef    `xml:"http://www.bmecat.org/bmecat/2005 BUYER_IDREF"`
 	SupplierIDRef *bmecat.SupplierIDRef `xml:"http://www.bmecat.org/bmecat/2005 SUPPLIER_IDREF"`
-	Currency      bmecat.EMail          `xml:"http://www.bmecat.org/bmecat/2005 CURRENCY" validate:"required"`
+	Currency      bmecat.Currency       `xml:"http://www.bmecat.org/bmecat/2005 CURRENCY" validate:"required"`
 }
 
 type InvoiceItemList struct {
