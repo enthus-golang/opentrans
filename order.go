@@ -46,13 +46,15 @@ type OrderItemList struct {
 }
 
 type OrderItem struct {
-	XMLName         xml.Name         `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM"`
-	LineItemID      string           `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID" validate:"required,max=50"`
-	ProductID       ProductID        `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_ID" validate:"required"`
-	Quantity        float64          `xml:"http://www.opentrans.org/XMLSchema/2.1 QUANTITY" validate:"required"`
-	OrderUnit       bmecat.OrderUnit `xml:"http://www.bmecat.org/bmecat/2005 ORDER_UNIT" validate:"required,max=3"`
-	PriceLineAmount float64          `xml:"http://www.opentrans.org/XMLSchema/2.1 PRICE_LINE_AMOUNT,omitempty"`
-	ProductPriceFix *ProductPriceFix `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_PRICE_FIX"`
+	XMLName                xml.Name                `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM"`
+	LineItemID             string                  `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID" validate:"required,max=50"`
+	ProductID              ProductID               `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_ID" validate:"required"`
+	Quantity               float64                 `xml:"http://www.opentrans.org/XMLSchema/2.1 QUANTITY" validate:"required"`
+	OrderUnit              bmecat.OrderUnit        `xml:"http://www.bmecat.org/bmecat/2005 ORDER_UNIT" validate:"required,max=3"`
+	ProductPriceFix        *ProductPriceFix        `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_PRICE_FIX"`
+	PriceLineAmount        float64                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PRICE_LINE_AMOUNT,omitempty"`
+	CustomerOrderReference *CustomerOrderReference `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE,omitempty"`
+	Remarks                []Remarks               `xml:"http://www.opentrans.org/XMLSchema/2.1 REMARKS"`
 }
 
 type ProductID struct {
@@ -110,7 +112,11 @@ type OrderInfo struct {
 }
 
 type CustomerOrderReference struct {
-	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE"`
+	XMLName    xml.Name        `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE"`
+	OrderID    string          `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ID,omitempty"`
+	LineItemID string          `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID,omitempty"`
+	OrderDate  bmecat.Datetime `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
+	//OrderDescription string          `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DESCR"`
 }
 
 type OrderPartiesReference struct {
