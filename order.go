@@ -84,7 +84,9 @@ type ProductPriceFix struct {
 }
 
 type OrderSummary struct {
-	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_SUMMARY"`
+	XMLName      xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_SUMMARY"`
+	TotalItemNum int      `xml:"http://www.opentrans.org/XMLSchema/2.1 TOTAL_ITEM_NUM" validate:"gte=0"`
+	TotalAmount  *float64 `xml:"http://www.opentrans.org/XMLSchema/2.1 TOTAL_AMOUNT"`
 }
 
 type SourcingInfo struct {
