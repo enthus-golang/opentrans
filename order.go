@@ -112,10 +112,10 @@ type OrderInfo struct {
 }
 
 type CustomerOrderReference struct {
-	XMLName    xml.Name        `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE"`
-	OrderID    string          `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ID,omitempty"`
-	LineItemID string          `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID,omitempty"`
-	OrderDate  bmecat.Datetime `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
+	XMLName    xml.Name         `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE"`
+	OrderID    string           `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ID,omitempty"`
+	LineItemID string           `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID,omitempty"`
+	OrderDate  *bmecat.Datetime `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DATE"`
 	//OrderDescription string          `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_DESCR"`
 }
 
