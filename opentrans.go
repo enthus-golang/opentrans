@@ -47,8 +47,8 @@ type Party struct {
 	PartyID   []bmecat.PartyID `xml:"http://www.bmecat.org/bmecat/2005 PARTY_ID"`
 	PartyRole []PartyRole      `xml:"http://www.opentrans.org/XMLSchema/2.1 PARTY_ROLE" validate:"dive,oneof=buyer central_regulator customer deliverer delivery document_creator final_delivery intermediary invoice_issuer invoice_recipient ipp_operator manufacturer marketplace payer remittee standardization_body supplier trustedthirdparty other"`
 	Address   []Address        `xml:"http://www.opentrans.org/XMLSchema/2.1 ADDRESS"`
-	Account   string           `xml:"http://www.opentrans.org/XMLSchema/2.1 ACCOUNT"`
-	MIMEInfo  string           `xml:"http://www.opentrans.org/XMLSchema/2.1 MIME_INFO"`
+	//Account   string           `xml:"http://www.opentrans.org/XMLSchema/2.1 ACCOUNT"`
+	//MIMEInfo  string           `xml:"http://www.opentrans.org/XMLSchema/2.1 MIME_INFO"`
 }
 
 //func (p *Party) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
