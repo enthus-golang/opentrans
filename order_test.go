@@ -2,6 +2,7 @@ package opentrans
 
 import (
 	"encoding/xml"
+	"fmt"
 	"testing"
 	"time"
 
@@ -255,8 +256,8 @@ func TestNewOrder(t *testing.T) {
 				},
 			},
 			HeaderUserDefinedExtension: &HeaderUserDefinedExtension{
-				Elements: map[string]interface{}{
-					"DROPSHIPMENT": true,
+				Elements: map[string][]byte{
+					"DROPSHIPMENT": []byte("true"),
 				},
 			},
 		}
@@ -394,5 +395,107 @@ func TestNewOrder(t *testing.T) {
   </ORDER_ITEM_LIST>
   <ORDER_SUMMARY xmlns="http://www.opentrans.org/XMLSchema/2.1"></ORDER_SUMMARY>
 </ORDER>`, string(s), "")
+	})
+}
+
+func TestHeaderUserDefinedExtension(t *testing.T) {
+	t.Run("MarshalXML", func(t *testing.T) {
+		udx := struct {
+			XMLName xml.Name `xml:"ASD"`
+			A       HeaderUserDefinedExtension
+		}{
+			A: HeaderUserDefinedExtension{
+				Elements: map[string][]byte{
+					"DROPSHIPMENT": []byte("true"),
+				},
+			},
+		}
+
+		s, err := xml.MarshalIndent(udx, "", "  ")
+		if err != nil {
+			t.Error(err.Error())
+			return
+		}
+
+		assert.Equalf(t, `<ASD>
+  <HEADER_UDX xmlns="http://www.opentrans.org/XMLSchema/2.1">
+    <UDX.DROPSHIPMENT>true</UDX.DROPSHIPMENT>
+  </HEADER_UDX>
+</ASD>`, string(s), "")
+	})
+	t.Run("UnmarshalXML", func(t *testing.T) {
+		var udx struct {
+			XMLName xml.Name `xml:"ASD"`
+			A       HeaderUserDefinedExtension
+		}
+
+		txt := []byte(`<ASD>
+  <HEADER_UDX xmlns="http://www.opentrans.org/XMLSchema/2.1">
+    <UDX.DROPSHIPMENT>true</UDX.DROPSHIPMENT>
+    <UDX.TEST>foo</UDX.TEST>
+  </HEADER_UDX>
+</ASD>`)
+
+		err := xml.Unmarshal(txt, &udx)
+		assert.NoError(t, err)
+		assert.Equal(t, 2, len(udx.A.Elements))
+		fmt.Printf("%+v", udx.A.Elements)
+		val, ok := udx.A.Elements["DROPSHIPMENT"]
+		assert.Equal(t, true, ok)
+		assert.Equal(t, "true", string(val))
+		val, ok = udx.A.Elements["TEST"]
+		assert.Equal(t, true, ok)
+		assert.Equal(t, "foo", string(val))
+	})
+}
+
+func TestItemUserDefinedExtension(t *testing.T) {
+	t.Run("MarshalXML", func(t *testing.T) {
+		udx := struct {
+			XMLName xml.Name `xml:"ASD"`
+			A       ItemUserDefinedExtension
+		}{
+			A: ItemUserDefinedExtension{
+				Elements: map[string][]byte{
+					"DROPSHIPMENT": []byte("true"),
+				},
+			},
+		}
+
+		s, err := xml.MarshalIndent(udx, "", "  ")
+		if err != nil {
+			t.Error(err.Error())
+			return
+		}
+
+		assert.Equalf(t, `<ASD>
+  <HEADER_UDX xmlns="http://www.opentrans.org/XMLSchema/2.1">
+    <UDX.DROPSHIPMENT>true</UDX.DROPSHIPMENT>
+  </HEADER_UDX>
+</ASD>`, string(s), "")
+	})
+	t.Run("UnmarshalXML", func(t *testing.T) {
+		var udx struct {
+			XMLName xml.Name `xml:"ASD"`
+			A       ItemUserDefinedExtension
+		}
+
+		txt := []byte(`<ASD>
+  <HEADER_UDX xmlns="http://www.opentrans.org/XMLSchema/2.1">
+    <UDX.DROPSHIPMENT>true</UDX.DROPSHIPMENT>
+    <UDX.TEST>foo</UDX.TEST>
+  </HEADER_UDX>
+</ASD>`)
+
+		err := xml.Unmarshal(txt, &udx)
+		assert.NoError(t, err)
+		assert.Equal(t, 2, len(udx.A.Elements))
+		fmt.Printf("%+v", udx.A.Elements)
+		val, ok := udx.A.Elements["DROPSHIPMENT"]
+		assert.Equal(t, true, ok)
+		assert.Equal(t, "true", string(val))
+		val, ok = udx.A.Elements["TEST"]
+		assert.Equal(t, true, ok)
+		assert.Equal(t, "foo", string(val))
 	})
 }

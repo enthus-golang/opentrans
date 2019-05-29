@@ -2,7 +2,6 @@ package opentrans
 
 import (
 	"encoding/xml"
-	"fmt"
 	"strings"
 
 	"gitlab.com/mclgmbh/gomod/bmecat"
@@ -46,15 +45,16 @@ type OrderItemList struct {
 }
 
 type OrderItem struct {
-	XMLName                xml.Name                `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM"`
-	LineItemID             string                  `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID" validate:"required,max=50"`
-	ProductID              ProductID               `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_ID" validate:"required"`
-	Quantity               float64                 `xml:"http://www.opentrans.org/XMLSchema/2.1 QUANTITY" validate:"required"`
-	OrderUnit              bmecat.OrderUnit        `xml:"http://www.bmecat.org/bmecat/2005 ORDER_UNIT" validate:"required,max=3"`
-	ProductPriceFix        *ProductPriceFix        `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_PRICE_FIX"`
-	PriceLineAmount        float64                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PRICE_LINE_AMOUNT,omitempty"`
-	CustomerOrderReference *CustomerOrderReference `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE,omitempty"`
-	Remarks                []Remarks               `xml:"http://www.opentrans.org/XMLSchema/2.1 REMARKS"`
+	XMLName                  xml.Name                  `xml:"http://www.opentrans.org/XMLSchema/2.1 ORDER_ITEM"`
+	LineItemID               string                    `xml:"http://www.opentrans.org/XMLSchema/2.1 LINE_ITEM_ID" validate:"required,max=50"`
+	ProductID                ProductID                 `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_ID" validate:"required"`
+	Quantity                 float64                   `xml:"http://www.opentrans.org/XMLSchema/2.1 QUANTITY" validate:"required"`
+	OrderUnit                bmecat.OrderUnit          `xml:"http://www.bmecat.org/bmecat/2005 ORDER_UNIT" validate:"required,max=3"`
+	ProductPriceFix          *ProductPriceFix          `xml:"http://www.opentrans.org/XMLSchema/2.1 PRODUCT_PRICE_FIX"`
+	PriceLineAmount          float64                   `xml:"http://www.opentrans.org/XMLSchema/2.1 PRICE_LINE_AMOUNT,omitempty"`
+	CustomerOrderReference   *CustomerOrderReference   `xml:"http://www.opentrans.org/XMLSchema/2.1 CUSTOMER_ORDER_REFERENCE,omitempty"`
+	Remarks                  []Remarks                 `xml:"http://www.opentrans.org/XMLSchema/2.1 REMARKS"`
+	ItemUserDefinedExtension *ItemUserDefinedExtension `xml:"http://www.opentrans.org/XMLSchema/2.1 ITEM_UDX"`
 }
 
 type ProductID struct {
@@ -182,9 +182,11 @@ type Remarks struct {
 	Value   string     `xml:",chardata" validate:"min=1,max=64000"`
 }
 
+const UserDefinedExtensionPrefix = "UDX."
+
 type HeaderUserDefinedExtension struct {
-	XMLName  xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 HEADER_UDX"`
-	Elements map[string]interface{}
+	XMLName  xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 HEADER_UDX" json:"-" yaml:"-"`
+	Elements map[string][]byte
 }
 
 func (h HeaderUserDefinedExtension) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
@@ -194,7 +196,7 @@ func (h HeaderUserDefinedExtension) MarshalXML(e *xml.Encoder, start xml.StartEl
 	}
 
 	for k, v := range h.Elements {
-		err = e.EncodeElement(v, xml.StartElement{Name: xml.Name{Local: fmt.Sprintf("UDX.%s", strings.ToUpper(k))}})
+		err = e.EncodeElement(v, xml.StartElement{Name: xml.Name{Local: UserDefinedExtensionPrefix + strings.ToUpper(k)}})
 		if err != nil {
 			return err
 		}
@@ -206,4 +208,84 @@ func (h HeaderUserDefinedExtension) MarshalXML(e *xml.Encoder, start xml.StartEl
 	}
 
 	return nil
+}
+
+func (h *HeaderUserDefinedExtension) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	h.Elements = map[string][]byte{}
+
+	key := ""
+
+	for {
+		t, _ := d.Token()
+		switch tt := t.(type) {
+
+		case xml.StartElement:
+			if strings.HasPrefix(tt.Name.Local, UserDefinedExtensionPrefix) {
+				key = tt.Name.Local[len(UserDefinedExtensionPrefix):]
+			}
+		case xml.EndElement:
+			if tt.Name == start.Name {
+				return nil
+			}
+
+			key = ""
+		case xml.CharData:
+			if key != "" {
+				h.Elements[key] = tt.Copy()
+			}
+		}
+	}
+}
+
+type ItemUserDefinedExtension struct {
+	XMLName  xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 ITEM_UDX"`
+	Elements map[string][]byte
+}
+
+func (i ItemUserDefinedExtension) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	err := e.EncodeToken(start)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range i.Elements {
+		err = e.EncodeElement(v, xml.StartElement{Name: xml.Name{Local: UserDefinedExtensionPrefix + strings.ToUpper(k)}})
+		if err != nil {
+			return err
+		}
+	}
+
+	err = e.EncodeToken(xml.EndElement{Name: start.Name})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (i *ItemUserDefinedExtension) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	i.Elements = map[string][]byte{}
+
+	key := ""
+
+	for {
+		t, _ := d.Token()
+		switch tt := t.(type) {
+
+		case xml.StartElement:
+			if strings.HasPrefix(tt.Name.Local, UserDefinedExtensionPrefix) {
+				key = tt.Name.Local[len(UserDefinedExtensionPrefix):]
+			}
+		case xml.EndElement:
+			if tt.Name == start.Name {
+				return nil
+			}
+
+			key = ""
+		case xml.CharData:
+			if key != "" {
+				i.Elements[key] = tt.Copy()
+			}
+		}
+	}
 }
