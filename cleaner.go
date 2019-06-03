@@ -1,63 +1,77 @@
 package opentrans
 
 import (
-	"regexp"
+	"encoding/xml"
+	"fmt"
+	"io"
 	"sort"
 	"strings"
 )
 
-func CleanXMLNamespaces(xml string) (string, error) {
+func CleanXMLNamespaces(x string) (string, error) {
 	replacer := map[string]string{
 		"http://www.opentrans.org/XMLSchema/2.1": "",
 		"http://www.bmecat.org/bmecat/2005":      "bmecat",
 	}
 
-	submatchReplace := func(re *regexp.Regexp, str string, repl func(int, []string) string) string {
-		result := ""
-		lastIndex := 0
-
-		for i, v := range re.FindAllSubmatchIndex([]byte(str), -1) {
-			var groups []string
-			for j := 0; j < len(v); j += 2 {
-				groups = append(groups, str[v[j]:v[j+1]])
-			}
-
-			result += str[lastIndex:v[0]] + repl(i, groups)
-			lastIndex = v[1]
+	d := xml.NewDecoder(strings.NewReader(x))
+	fx := ""
+	depth := 0
+	for {
+		t, err := d.Token()
+		if err == io.EOF {
+			return fx, nil
 		}
-
-		return result + str[lastIndex:]
-	}
-
-	re := regexp.MustCompile(`<([^\s]+) xmlns="([^"]+)"`)
-	result := submatchReplace(re, xml, func(i int, groups []string) string {
-		if i == 0 {
-			attrs := make([]string, len(replacer))
-			keys := make([]string, len(replacer))
-			i := 0
-			for k := range replacer {
-				keys[i] = k
-				i++
+		if err != nil {
+			return "", err
+		}
+		switch tt := t.(type) {
+		case xml.StartElement:
+			//fmt.Println(">", tt.Name.Local, tt.Name.Space)
+			fx += "<"
+			if v := replacer[tt.Name.Space]; v != "" {
+				fx += v + ":"
 			}
-			i = 0
-			sort.Strings(keys)
-			for _, k := range keys {
-				attrs[i] = "xmlns"
-				if replacer[k] != "" {
-					attrs[i] += ":" + replacer[k]
+			fx += tt.Name.Local
+			if depth == 0 {
+				attrs := make([]string, len(replacer))
+				keys := make([]string, len(replacer))
+				i := 0
+				for k := range replacer {
+					keys[i] = k
+					i++
 				}
-				attrs[i] += `="` + k + `"`
-				i++
+				i = 0
+				sort.Strings(keys)
+				for _, k := range keys {
+					attrs[i] = "xmlns"
+					if replacer[k] != "" {
+						attrs[i] += ":" + replacer[k]
+					}
+					attrs[i] += `="` + k + `"`
+					i++
+				}
+				fx += " " + strings.Join(attrs, " ")
 			}
-			return "<" + groups[1] + " " + strings.Join(attrs, " ")
+			for _, v := range tt.Attr {
+				if v.Name.Local == "xmlns" {
+					continue
+				}
+				fx += " "
+				fx += fmt.Sprintf(`%s="%s"`, v.Name.Local, v.Value)
+			}
+			fx += ">"
+			depth++
+		case xml.EndElement:
+			//fmt.Println("<", tt.Name.Local, tt.Name.Space)
+			fx += "</"
+			if v := replacer[tt.Name.Space]; v != "" {
+				fx += v + ":"
+			}
+			fx += tt.Name.Local + ">"
+			depth--
+		case xml.CharData:
+			fx += string(tt.Copy())
 		}
-		prefix := replacer[groups[2]]
-		if prefix == "" {
-			return "<" + groups[1]
-		}
-
-		return "<" + prefix + ":" + groups[1]
-	})
-
-	return result, nil
+	}
 }

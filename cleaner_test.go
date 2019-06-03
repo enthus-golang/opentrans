@@ -124,79 +124,79 @@ func TestCleanXMLNamespaces(t *testing.T) {
     <ORDER_INFO>
       <ORDER_ID>ORDER_123456</ORDER_ID>
       <ORDER_DATE>2018-10-01T18:54:55Z</ORDER_DATE>
-      <bmecat:LANGUAGE default="true">deu</LANGUAGE>
+      <bmecat:LANGUAGE default="true">deu</bmecat:LANGUAGE>
       <PARTIES>
         <PARTY>
-          <bmecat:PARTY_ID type="buyer_specific">1234569</PARTY_ID>
+          <bmecat:PARTY_ID type="buyer_specific">1234569</bmecat:PARTY_ID>
           <PARTY_ROLE>supplier</PARTY_ROLE>
           <ADDRESS>
-            <bmecat:NAME>XYZ Name</NAME>
-            <bmecat:STREET>Some sort of street 26</STREET>
-            <bmecat:ZIP>ZIP 123</ZIP>
-            <bmecat:CITY>Awesomo</CITY>
-            <bmecat:COUNTRY>Deutschland</COUNTRY>
-            <bmecat:COUNTRY_CODED>DE</COUNTRY_CODED>
+            <bmecat:NAME>XYZ Name</bmecat:NAME>
+            <bmecat:STREET>Some sort of street 26</bmecat:STREET>
+            <bmecat:ZIP>ZIP 123</bmecat:ZIP>
+            <bmecat:CITY>Awesomo</bmecat:CITY>
+            <bmecat:COUNTRY>Deutschland</bmecat:COUNTRY>
+            <bmecat:COUNTRY_CODED>DE</bmecat:COUNTRY_CODED>
           </ADDRESS>
           <ACCOUNT></ACCOUNT>
           <MIME_INFO></MIME_INFO>
         </PARTY>
         <PARTY>
-          <bmecat:PARTY_ID type="supplier_specific">25874852</PARTY_ID>
+          <bmecat:PARTY_ID type="supplier_specific">25874852</bmecat:PARTY_ID>
           <PARTY_ROLE>buyer</PARTY_ROLE>
           <ADDRESS>
-            <bmecat:NAME>ASD</NAME>
+            <bmecat:NAME>ASD</bmecat:NAME>
             <CONTACT_DETAILS>
-              <bmecat:CONTACT_NAME>Bin</CONTACT_NAME>
-              <bmecat:FIRST_NAME>Foo</FIRST_NAME>
-              <bmecat:PHONE type="office">+49 487 1474447448</PHONE>
+              <bmecat:CONTACT_NAME>Bin</bmecat:CONTACT_NAME>
+              <bmecat:FIRST_NAME>Foo</bmecat:FIRST_NAME>
+              <bmecat:PHONE type="office">+49 487 1474447448</bmecat:PHONE>
               <bmecat:EMAILS>
-                <bmecat:EMAIL>foo@bar.baz</EMAIL>
-              </EMAILS>
+                <bmecat:EMAIL>foo@bar.baz</bmecat:EMAIL>
+              </bmecat:EMAILS>
             </CONTACT_DETAILS>
-            <bmecat:STREET>Another street 12</STREET>
-            <bmecat:ZIP>45123</ZIP>
-            <bmecat:CITY>Gotham</CITY>
-            <bmecat:COUNTRY>Deutschland</COUNTRY>
-            <bmecat:COUNTRY_CODED>DE</COUNTRY_CODED>
-            <bmecat:PHONE type="office">+49 148/147854788</PHONE>
-            <bmecat:FAX type="office">+49 148/147854789</FAX>
-            <bmecat:URL>www.example.tld</URL>
+            <bmecat:STREET>Another street 12</bmecat:STREET>
+            <bmecat:ZIP>45123</bmecat:ZIP>
+            <bmecat:CITY>Gotham</bmecat:CITY>
+            <bmecat:COUNTRY>Deutschland</bmecat:COUNTRY>
+            <bmecat:COUNTRY_CODED>DE</bmecat:COUNTRY_CODED>
+            <bmecat:PHONE type="office">+49 148/147854788</bmecat:PHONE>
+            <bmecat:FAX type="office">+49 148/147854789</bmecat:FAX>
+            <bmecat:URL>www.example.tld</bmecat:URL>
           </ADDRESS>
           <ACCOUNT></ACCOUNT>
           <MIME_INFO></MIME_INFO>
         </PARTY>
         <PARTY>
-          <bmecat:PARTY_ID type="supplier_specific">25874852</PARTY_ID>
+          <bmecat:PARTY_ID type="supplier_specific">25874852</bmecat:PARTY_ID>
           <PARTY_ROLE>delivery</PARTY_ROLE>
           <ADDRESS>
-            <bmecat:NAME>ASD</NAME>
+            <bmecat:NAME>ASD</bmecat:NAME>
             <CONTACT_DETAILS>
-              <bmecat:CONTACT_NAME>Bin</CONTACT_NAME>
-              <bmecat:FIRST_NAME>Foo</FIRST_NAME>
-              <bmecat:PHONE type="office">+49 487 1474447448</PHONE>
+              <bmecat:CONTACT_NAME>Bin</bmecat:CONTACT_NAME>
+              <bmecat:FIRST_NAME>Foo</bmecat:FIRST_NAME>
+              <bmecat:PHONE type="office">+49 487 1474447448</bmecat:PHONE>
               <bmecat:EMAILS>
-                <bmecat:EMAIL>foo@bar.baz</EMAIL>
-              </EMAILS>
+                <bmecat:EMAIL>foo@bar.baz</bmecat:EMAIL>
+              </bmecat:EMAILS>
             </CONTACT_DETAILS>
-            <bmecat:STREET>Another street 12</STREET>
-            <bmecat:ZIP>45123</ZIP>
-            <bmecat:CITY>Gotham</CITY>
-            <bmecat:COUNTRY>Deutschland</COUNTRY>
-            <bmecat:COUNTRY_CODED>DE</COUNTRY_CODED>
-            <bmecat:PHONE type="office">+49 148/147854788</PHONE>
-            <bmecat:FAX type="office">+49 148/147854789</FAX>
-            <bmecat:EMAIL>foo2@bar.baz</EMAIL>
-            <bmecat:URL>www.example.tld</URL>
+            <bmecat:STREET>Another street 12</bmecat:STREET>
+            <bmecat:ZIP>45123</bmecat:ZIP>
+            <bmecat:CITY>Gotham</bmecat:CITY>
+            <bmecat:COUNTRY>Deutschland</bmecat:COUNTRY>
+            <bmecat:COUNTRY_CODED>DE</bmecat:COUNTRY_CODED>
+            <bmecat:PHONE type="office">+49 148/147854788</bmecat:PHONE>
+            <bmecat:FAX type="office">+49 148/147854789</bmecat:FAX>
+            <bmecat:EMAIL>foo2@bar.baz</bmecat:EMAIL>
+            <bmecat:URL>www.example.tld</bmecat:URL>
           </ADDRESS>
           <ACCOUNT></ACCOUNT>
           <MIME_INFO></MIME_INFO>
         </PARTY>
       </PARTIES>
       <ORDER_PARTIES_REFERENCE>
-        <bmecat:BUYER_IDREF type="supplier_specific">123456</BUYER_IDREF>
-        <bmecat:SUPPLIER_IDREF type="buyer_specific">102315123</SUPPLIER_IDREF>
+        <bmecat:BUYER_IDREF type="supplier_specific">123456</bmecat:BUYER_IDREF>
+        <bmecat:SUPPLIER_IDREF type="buyer_specific">102315123</bmecat:SUPPLIER_IDREF>
       </ORDER_PARTIES_REFERENCE>
-      <bmecat:CURRENCY>EUR</CURRENCY>
+      <bmecat:CURRENCY>EUR</bmecat:CURRENCY>
       <PARTIAL_SHIPMENT_ALLOWED>false</PARTIAL_SHIPMENT_ALLOWED>
       <REMARKS type="general">RemarkTheFirst</REMARKS>
       <HEADER_UDX>
@@ -208,14 +208,14 @@ func TestCleanXMLNamespaces(t *testing.T) {
     <ORDER_ITEM>
       <LINE_ITEM_ID>123456</LINE_ITEM_ID>
       <PRODUCT_ID>
-        <bmecat:SUPPLIER_PID type="supplier_specific">5095055</SUPPLIER_PID>
-        <bmecat:INTERNATIONAL_PID>5702015867511</INTERNATIONAL_PID>
+        <bmecat:SUPPLIER_PID type="supplier_specific">5095055</bmecat:SUPPLIER_PID>
+        <bmecat:INTERNATIONAL_PID>5702015867511</bmecat:INTERNATIONAL_PID>
       </PRODUCT_ID>
       <QUANTITY>1</QUANTITY>
-      <bmecat:ORDER_UNIT>C62</ORDER_UNIT>
+      <bmecat:ORDER_UNIT>C62</bmecat:ORDER_UNIT>
       <PRICE_LINE_AMOUNT>3.51</PRICE_LINE_AMOUNT>
       <PRODUCT_PRICE_FIX>
-        <bmecat:PRICE_AMOUNT>3.51</PRICE_AMOUNT>
+        <bmecat:PRICE_AMOUNT>3.51</bmecat:PRICE_AMOUNT>
       </PRODUCT_PRICE_FIX>
     </ORDER_ITEM>
   </ORDER_ITEM_LIST>
