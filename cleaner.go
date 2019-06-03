@@ -1,6 +1,7 @@
 package opentrans
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -8,14 +9,14 @@ import (
 	"strings"
 )
 
-func CleanXMLNamespaces(x string) (string, error) {
+func CleanXMLNamespaces(x []byte) ([]byte, error) {
 	replacer := map[string]string{
 		"http://www.opentrans.org/XMLSchema/2.1": "",
 		"http://www.bmecat.org/bmecat/2005":      "bmecat",
 	}
 
-	d := xml.NewDecoder(strings.NewReader(x))
-	fx := ""
+	d := xml.NewDecoder(bytes.NewReader(x))
+	var fx []byte
 	depth := 0
 	for {
 		t, err := d.Token()
@@ -23,16 +24,16 @@ func CleanXMLNamespaces(x string) (string, error) {
 			return fx, nil
 		}
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 		switch tt := t.(type) {
 		case xml.StartElement:
 			//fmt.Println(">", tt.Name.Local, tt.Name.Space)
-			fx += "<"
+			fx = append(fx, '<')
 			if v := replacer[tt.Name.Space]; v != "" {
-				fx += v + ":"
+				fx = append(fx, []byte(v+":")...)
 			}
-			fx += tt.Name.Local
+			fx = append(fx, []byte(tt.Name.Local)...)
 			if depth == 0 {
 				attrs := make([]string, len(replacer))
 				keys := make([]string, len(replacer))
@@ -51,27 +52,26 @@ func CleanXMLNamespaces(x string) (string, error) {
 					attrs[i] += `="` + k + `"`
 					i++
 				}
-				fx += " " + strings.Join(attrs, " ")
+				fx = append(fx, []byte(" "+strings.Join(attrs, " "))...)
 			}
 			for _, v := range tt.Attr {
 				if v.Name.Local == "xmlns" {
 					continue
 				}
-				fx += " "
-				fx += fmt.Sprintf(`%s="%s"`, v.Name.Local, v.Value)
+				fx = append(fx, []byte(" "+fmt.Sprintf(`%s="%s"`, v.Name.Local, v.Value))...)
 			}
-			fx += ">"
+			fx = append(fx, '>')
 			depth++
 		case xml.EndElement:
 			//fmt.Println("<", tt.Name.Local, tt.Name.Space)
-			fx += "</"
+			fx = append(fx, '<', '/')
 			if v := replacer[tt.Name.Space]; v != "" {
-				fx += v + ":"
+				fx = append(fx, []byte(v+":")...)
 			}
-			fx += tt.Name.Local + ">"
+			fx = append(fx, []byte(tt.Name.Local+">")...)
 			depth--
 		case xml.CharData:
-			fx += string(tt.Copy())
+			fx = append(fx, tt.Copy()...)
 		}
 	}
 }

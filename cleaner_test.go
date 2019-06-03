@@ -7,7 +7,7 @@ import (
 )
 
 func TestCleanXMLNamespaces(t *testing.T) {
-	rawXML := `<ORDER xmlns="http://www.opentrans.org/XMLSchema/2.1" version="2.1" type="standard">
+	rawXML := []byte(`<ORDER xmlns="http://www.opentrans.org/XMLSchema/2.1" version="2.1" type="standard">
   <ORDER_HEADER xmlns="http://www.opentrans.org/XMLSchema/2.1">
     <CONTROL_INFO xmlns="http://www.opentrans.org/XMLSchema/2.1">
       <GENERATOR_INFO xmlns="http://www.opentrans.org/XMLSchema/2.1">test</GENERATOR_INFO>
@@ -112,7 +112,7 @@ func TestCleanXMLNamespaces(t *testing.T) {
     </ORDER_ITEM>
   </ORDER_ITEM_LIST>
   <ORDER_SUMMARY xmlns="http://www.opentrans.org/XMLSchema/2.1"></ORDER_SUMMARY>
-</ORDER>`
+</ORDER>`)
 	formatted, err := CleanXMLNamespaces(rawXML)
 	assert.NoError(t, err)
 	assert.Equal(t, `<ORDER xmlns:bmecat="http://www.bmecat.org/bmecat/2005" xmlns="http://www.opentrans.org/XMLSchema/2.1" version="2.1" type="standard">
