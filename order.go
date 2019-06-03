@@ -92,7 +92,17 @@ type OrderSummary struct {
 }
 
 type SourcingInfo struct {
-	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 SOURCING_INFO"`
+	XMLName     xml.Name   `xml:"http://www.opentrans.org/XMLSchema/2.1 SOURCING_INFO"`
+	QuotationID string     `xml:"http://www.opentrans.org/XMLSchema/2.1 QUOTATION_ID,omitempty" validate:"max=250"`
+	Agreement   *Agreement `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT"`
+}
+
+type Agreement struct {
+	XMLName            xml.Name         `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT"`
+	Type               string           `xml:"type,omitempty" validate:"max=50"`
+	Default            string           `xml:"default,omitempty" validate:"omitempty,oneof=true false"`
+	AgreementID        string           `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_ID,omitempty" validate:"min=1,max=50"`
+	AgreementStartDate *bmecat.Datetime `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_START_DATE"`
 }
 
 type OrderInfo struct {
