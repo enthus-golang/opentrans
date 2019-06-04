@@ -22,7 +22,7 @@ func TestCleanXMLNamespaces(t *testing.T) {
           <PARTY_ID xmlns="http://www.bmecat.org/bmecat/2005" type="buyer_specific">1234569</PARTY_ID>
           <PARTY_ROLE xmlns="http://www.opentrans.org/XMLSchema/2.1">supplier</PARTY_ROLE>
           <ADDRESS xmlns="http://www.opentrans.org/XMLSchema/2.1">
-            <NAME xmlns="http://www.bmecat.org/bmecat/2005">XYZ Name</NAME>
+            <NAME xmlns="http://www.bmecat.org/bmecat/2005">XYZ Name &amp; a</NAME>
             <STREET xmlns="http://www.bmecat.org/bmecat/2005">Some sort of street 26</STREET>
             <ZIP xmlns="http://www.bmecat.org/bmecat/2005">ZIP 123</ZIP>
             <CITY xmlns="http://www.bmecat.org/bmecat/2005">Awesomo</CITY>
@@ -130,7 +130,7 @@ func TestCleanXMLNamespaces(t *testing.T) {
           <bmecat:PARTY_ID type="buyer_specific">1234569</bmecat:PARTY_ID>
           <PARTY_ROLE>supplier</PARTY_ROLE>
           <ADDRESS>
-            <bmecat:NAME>XYZ Name</bmecat:NAME>
+            <bmecat:NAME>XYZ Name &amp; a</bmecat:NAME>
             <bmecat:STREET>Some sort of street 26</bmecat:STREET>
             <bmecat:ZIP>ZIP 123</bmecat:ZIP>
             <bmecat:CITY>Awesomo</bmecat:CITY>
@@ -220,5 +220,5 @@ func TestCleanXMLNamespaces(t *testing.T) {
     </ORDER_ITEM>
   </ORDER_ITEM_LIST>
   <ORDER_SUMMARY></ORDER_SUMMARY>
-</ORDER>`, formatted)
+</ORDER>`, string(formatted))
 }
