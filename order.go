@@ -109,7 +109,7 @@ type Agreement struct {
 	AgreementID          string                `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_ID,omitempty" validate:"min=1,max=50"`
 	AgreementStartDate   *bmecat.Datetime      `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_START_DATE"`
 	AgreementEndDate     *bmecat.Datetime      `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_END_DATE" validate:"required"`
-	AgreementDescription *AgreementDescription `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_DESCR,omitempty"`
+	AgreementDescription *AgreementDescription `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT_DESCR,omitempty"`
 }
 
 type OrderInfo struct {
