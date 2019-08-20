@@ -97,12 +97,19 @@ type SourcingInfo struct {
 	Agreement   *Agreement `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT"`
 }
 
+type AgreementDescription struct {
+	multiLocaleString00250
+	XMLName xml.Name `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT_DESCR"`
+}
+
 type Agreement struct {
-	XMLName            xml.Name         `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT"`
-	Type               string           `xml:"type,omitempty" validate:"max=50"`
-	Default            string           `xml:"default,omitempty" validate:"omitempty,oneof=true false"`
-	AgreementID        string           `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_ID,omitempty" validate:"min=1,max=50"`
-	AgreementStartDate *bmecat.Datetime `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_START_DATE"`
+	XMLName              xml.Name              `xml:"http://www.opentrans.org/XMLSchema/2.1 AGREEMENT"`
+	Type                 string                `xml:"type,omitempty" validate:"max=50"`
+	Default              string                `xml:"default,omitempty" validate:"omitempty,oneof=true false"`
+	AgreementID          string                `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_ID,omitempty" validate:"min=1,max=50"`
+	AgreementStartDate   *bmecat.Datetime      `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_START_DATE"`
+	AgreementEndDate     *bmecat.Datetime      `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_END_DATE" validate:"required"`
+	AgreementDescription *AgreementDescription `xml:"http://www.bmecat.org/bmecat/2005 AGREEMENT_DESCR,omitempty"`
 }
 
 type OrderInfo struct {
