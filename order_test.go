@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/mclgmbh/gomod/bmecat"
+	"gitlab.com/mclgmbh/golang-pkg/bmecat"
 )
 
 func TestNewOrder(t *testing.T) {

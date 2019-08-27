@@ -1,9 +1,11 @@
-module gitlab.com/mclgmbh/gomod/opentrans
+module gitlab.com/mclgmbh/golang-pkg/opentrans
 
 go 1.12
 
 require (
-	github.com/stretchr/objx v0.2.0 // indirect
-	github.com/stretchr/testify v1.3.0
-	gitlab.com/mclgmbh/gomod/bmecat v0.0.0-20190418130805-6788b7c250b3
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/kr/pretty v0.1.0 // indirect
+	github.com/stretchr/testify v1.4.0
+	gitlab.com/mclgmbh/golang-pkg/bmecat v0.0.0-20190827073948-37668a82b417
+	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )

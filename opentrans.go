@@ -3,7 +3,7 @@ package opentrans
 import (
 	"encoding/xml"
 
-	"gitlab.com/mclgmbh/gomod/bmecat"
+	"gitlab.com/mclgmbh/golang-pkg/bmecat"
 )
 
 type ControlInfo struct {

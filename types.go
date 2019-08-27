@@ -1,7 +1,7 @@
 package opentrans
 
 import (
-	"gitlab.com/mclgmbh/gomod/bmecat"
+	"gitlab.com/mclgmbh/golang-pkg/bmecat"
 )
 
 type multiLocaleString00050 struct {

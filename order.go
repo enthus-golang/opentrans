@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"strings"
 
-	"gitlab.com/mclgmbh/gomod/bmecat"
+	"gitlab.com/mclgmbh/golang-pkg/bmecat"
 )
 
 type OrderType string
