@@ -224,10 +224,8 @@ func TestNewOrder(t *testing.T) {
 										Value: "+49 148/147854789",
 									},
 								},
-								URL: "www.example.tld",
-								EMail: []bmecat.EMail{
-									"foo2@bar.baz",
-								},
+								URL:   "www.example.tld",
+								EMail: "foo2@bar.baz",
 							},
 						},
 					},

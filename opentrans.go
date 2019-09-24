@@ -81,7 +81,7 @@ type Address struct {
 	VatID          bmecat.VatID        `xml:"http://www.bmecat.org/bmecat/2005 VAT_ID,omitempty"`
 	Phone          []bmecat.Phone      `xml:"http://www.bmecat.org/bmecat/2005 PHONE"`
 	Fax            []bmecat.Fax        `xml:"http://www.bmecat.org/bmecat/2005 FAX"`
-	EMail          []bmecat.EMail      `xml:"http://www.bmecat.org/bmecat/2005 EMAIL" validate:"required,dive,required,max=255"`
+	EMail          bmecat.EMail        `xml:"http://www.bmecat.org/bmecat/2005 EMAIL,omitempty" validate:"required,max=255"`
 	URL            bmecat.URL          `xml:"http://www.bmecat.org/bmecat/2005 URL,omitempty" validate:"max=255"`
 }
 
