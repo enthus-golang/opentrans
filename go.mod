@@ -1,6 +1,6 @@
-module gitlab.com/mclgmbh/golang-pkg/opentrans
+module github.com/enthus-golang/opentrans
 
-go 1.12
+go 1.22
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
